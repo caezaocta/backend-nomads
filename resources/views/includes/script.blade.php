@@ -1,17 +1,4 @@
-   <!-- Bootstrap core JavaScript-->
-
-   <script src="{{ url('backend/vendor/jquery/jquery.min.js') }}"></script>
-   <script src="{{ url('backend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-   <!-- Core plugin JavaScript-->
-   <script src="{{ url('backend/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-   <!-- Custom scripts for all pages-->
-   <script src="{{ url('backend/js/sb-admin-2.min.js') }}"></script>
-
-   <!-- Page level plugins -->
-   <script src="{{ url('backend/vendor/chart.js/Chart.min.js') }}"></script>
-
-   <!-- Page level custom scripts -->
-   <script src="{{ url('backend/js/demo/chart-area-demo.js') }}"></script>
-   <script src="{{ url('backend/js/demo/chart-pie-demo.js') }}"></script>
+<script src="{{ url('frontend/libraries/retina/retina.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+crossorigin="anonymous"></script>
+<script src="{{ url('frontend/libraries/bootstrap/js/bootstrap.js') }}"></script>
