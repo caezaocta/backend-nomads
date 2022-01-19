@@ -16,6 +16,11 @@
 </head>
 
 <body id="page-top">
+    @if (session('success_message'))
+        <div class="alert alert-success">
+            {{ session('success_message') }}
+        </div>
+    @endif
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -73,6 +78,8 @@
     </div>
 
     @include('includes.admin.script')
+    @include('sweetalert::alert')
+
 
 </body>
 

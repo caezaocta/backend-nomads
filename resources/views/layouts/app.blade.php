@@ -21,6 +21,7 @@
     @stack('prepend-script')
     @include('includes.script')
     @stack('addon-script')
+    @include('sweetalert::alert')
 
 </body>
 
