@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGalleriesTable extends Migration
+class ModifyDatatypeTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateGalleriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('galleries', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('travel_packages_id');
-            $table->text('image');
-            $table->softDeletes();
-            $table->timestamps();
+
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->string('transaction_status', 255)->change();
         });
     }
 
@@ -29,6 +26,6 @@ class CreateGalleriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('galleries');
+        //
     }
 }

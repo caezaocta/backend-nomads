@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\TravelPackage;
+use App\Models\Transaction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\TravelPackageRequest;
+use App\Http\Requests\Admin\TransactionRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
-class TravelPackageController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +19,11 @@ class TravelPackageController extends Controller
      */
     public function index()
     {
-        $items = TravelPackage::all();
+        $items = Transaction::with([
+            'details', 'travel_package', 'user'
+        ])->get();
 
-        return view('pages.admin.travel-package.index', [
+        return view('pages.admin.transaction.index', [
             'items' => $items,
         ]);
     }
@@ -31,10 +33,10 @@ class TravelPackageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('pages.admin.travel-package.create');
-    }
+    // public function create()
+    // {
+    //     return view('pages.admin.transaction.create');
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -42,14 +44,14 @@ class TravelPackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TravelPackageRequest $request)
+    public function store(TransactionRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->title);
 
 
-        TravelPackage::create($data);
-        return redirect()->route('travel-package.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        Transaction::create($data);
+        return redirect()->route('transaction.index')->with('toast_success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -60,7 +62,13 @@ class TravelPackageController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Transaction::with([
+            'details', 'travel_package', 'user'
+        ])->findOrFail($id);
+
+        return view('pages.admin.transaction.detail', [
+            'item' => $item
+        ]);
     }
 
     /**
@@ -71,9 +79,9 @@ class TravelPackageController extends Controller
      */
     public function edit($id)
     {
-        $item = TravelPackage::findorFail($id);
+        $item = Transaction::findorFail($id);
 
-        return view('pages.admin.travel-package.edit', [
+        return view('pages.admin.transaction.edit', [
             'item' => $item
         ]);
     }
@@ -85,15 +93,15 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TravelPackageRequest $request, $id)
+    public function update(TransactionRequest $request, $id)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($request->title);
 
-        $item = TravelPackage::findorFail($id);
+        $item = Transaction::findorFail($id);
         $item->update($data);
 
-        return redirect()->route('travel-package.index')->with('toast_success', 'Data Berhasil Diedit');
+        return redirect()->route('transaction.index')->with('toast_success', 'Data Berhasil Diedit');
     }
 
     /**
@@ -104,9 +112,9 @@ class TravelPackageController extends Controller
      */
     public function destroy($id)
     {
-        $item = TravelPackage::findorFail($id);
+        $item = Transaction::findorFail($id);
         $item->delete();
 
-        return redirect()->route('travel-package.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('transaction.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }

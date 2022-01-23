@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\GalleryRequest;
+use App\Models\Gallery;
+use App\Models\TravelPackage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\TravelPackage;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\TravelPackageRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
-class TravelPackageController extends Controller
+class GalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +20,9 @@ class TravelPackageController extends Controller
      */
     public function index()
     {
-        $items = TravelPackage::all();
+        $items = Gallery::with(['travel_package'])->get();
 
-        return view('pages.admin.travel-package.index', [
+        return view('pages.admin.gallery.index', [
             'items' => $items,
         ]);
     }
@@ -33,7 +34,10 @@ class TravelPackageController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.travel-package.create');
+        $travel_packages = TravelPackage::all();
+        return view('pages.admin.gallery.create', [
+            'travel_packages' => $travel_packages
+        ]);
     }
 
     /**
@@ -42,14 +46,18 @@ class TravelPackageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TravelPackageRequest $request)
+    public function store(GalleryRequest $request)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($request->title);
 
+        $data['image'] = $request->file('image')->store(
+            'assets/gallery',
+            'public'
+        );
 
-        TravelPackage::create($data);
-        return redirect()->route('travel-package.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        if (Gallery::create($data)) {
+            return redirect()->route('gallery.index')->with('toast_success', 'Data Berhasil Ditambahkan');
+        }
     }
 
     /**
@@ -71,10 +79,12 @@ class TravelPackageController extends Controller
      */
     public function edit($id)
     {
-        $item = TravelPackage::findorFail($id);
+        $item = Gallery::findorFail($id);
+        $travel_packages = TravelPackage::all();
 
-        return view('pages.admin.travel-package.edit', [
-            'item' => $item
+        return view('pages.admin.gallery.edit', [
+            'item' => $item,
+            'travel_packages' => $travel_packages,
         ]);
     }
 
@@ -85,15 +95,19 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TravelPackageRequest $request, $id)
+    public function update(GalleryRequest $request, $id)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($request->title);
 
-        $item = TravelPackage::findorFail($id);
+        $data['image'] = $request->file('image')->store(
+            'assets/gallery',
+            'public'
+        );
+
+        $item = Gallery::findorFail($id);
         $item->update($data);
 
-        return redirect()->route('travel-package.index')->with('toast_success', 'Data Berhasil Diedit');
+        return redirect()->route('gallery.index')->with('toast_success', 'Data Berhasil Diedit');
     }
 
     /**
@@ -104,9 +118,9 @@ class TravelPackageController extends Controller
      */
     public function destroy($id)
     {
-        $item = TravelPackage::findorFail($id);
+        $item = Gallery::findorFail($id);
         $item->delete();
 
-        return redirect()->route('travel-package.index')->with('toast_success', 'Data Berhasil Dihapus');
+        return redirect()->route('gallery.index')->with('toast_success', 'Data Berhasil Dihapus');
     }
 }
