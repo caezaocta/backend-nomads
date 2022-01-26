@@ -34,12 +34,12 @@
                         <tbody>
                             @forelse ($items as $item)
                                 <tr>
-                                    <th>{{ $item->id }}</th>
-                                    <th>{{ $item->travel_package->title }}</th>
-                                    <th>{{ $item->user->name }}</th>
-                                    <th>${{ $item->additional_visa }}</th>
-                                    <th>${{ $item->transaction_total }}</th>
-                                    <th>{{ $item->transaction_status }}</th>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->travel_package->title }}</td>
+                                    <td>{{ $item->user->name ?? 'Nama Not Found' }}</td>
+                                    <td>${{ $item->additional_visa }}</td>
+                                    <td>${{ $item->transaction_total }}</td>
+                                    <td>{{ $item->transaction_status }}</td>
                                     <td>
                                         <a href="{{ route('transaction.show', $item->id) }}" class="btn btn-primary">
                                             <i class="fa fa-eye"></i>
