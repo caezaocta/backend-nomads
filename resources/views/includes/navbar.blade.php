@@ -33,17 +33,25 @@
 
             @guest()
                 <!-- Mobile button -->
-                <form class="form-inline d-sm-block d-md-none">
+                <form class="form-inline d-sm-block d-md-none text-center">
                     <button class="btn btn-login my-2 my-sm-0" type="button"
                         onclick="event.preventDefault(); location.href='{{ url('login') }}';">
                         Masuk
                     </button>
+                    <button class="btn btn-login my-2 my-sm-0 text-center" type="button"
+                        onclick="event.preventDefault(); location.href='{{ url('register') }}';">
+                        Buat Akun
+                    </button>
                 </form>
                 <!-- Desktop Button -->
-                <form class="form-inline my-2 my-lg-0 d-none d-md-block">
+                <form class="form-inline my-2 my-lg-0 d-none d-md-block text-center">
                     <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4" type="button"
                         onclick="event.preventDefault(); location.href='{{ url('login') }}';">
                         Masuk
+                    </button>
+                    <button class="btn btn-login btn-navbar-right my-2 my-sm-0 px-4 text-center" type="button"
+                        onclick="event.preventDefault(); location.href='{{ url('register') }}';">
+                        Buat Akun
                     </button>
                 </form>
             @endguest
